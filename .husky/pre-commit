@@ -1,4 +1,5 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+export PATH="$HOME/.asdf/shims:$HOME/.asdf/bin:$PATH"
 npx pretty-quick --staged
