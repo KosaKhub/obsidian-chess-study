@@ -3,6 +3,8 @@
 
 > A chess study helper and PGN viewer/editor for [Obsidian](https://obsidian.md/).
 
+> **Note:** This is a personal fork of [chrislicodes/obsidian-chess-study](https://github.com/chrislicodes/obsidian-chess-study) with additional features.
+
 With this plugin, you can either import PGNs or simply start a fresh new game. It allows you to add comments and arrows for each move, which will be persisted within a JSON File in your vault. Although it is not a full analysis board, it serves as a valuable tool to support your chess notetaking in [Obsidian](https://obsidian.md/).
 
 <!-- omit in toc -->
@@ -15,6 +17,7 @@ With this plugin, you can either import PGNs or simply start a fresh new game. I
  	- [1.0.0](#100)
  	- [1.1.0](#110)
  	- [1.2.0](#120)
+ 	- [1.3.0](#130)
 - [Settings](#settings)
 - [Roadmap](#roadmap)
 - [Tools Used](#tools-used)
@@ -71,6 +74,12 @@ After that the PGN viewer/editor will render and you are good to go (styles are 
 
 Thanks to [@latenitecoding](https://github.com/latenitecoding) for the contributions
 
+### 1.3.0
+
+- [x] Add Saved Games sidebar panel — browse all saved games, preview the board, navigate moves, insert into a note (as reference or independent copy), rename, and delete
+- [x] Add configurable storage folder in plugin settings — move JSON files outside `.obsidian/` to enable automatic sidebar refresh when games are saved
+- [x] Add `startMove` code block parameter to open a game at a specific position
+
 ## Settings
 
 Here are the available settings for a `chessStudy` code block:
@@ -81,14 +90,15 @@ Here are the available settings for a `chessStudy` code block:
 | `boardOrientation` | `white` \| `black` | Orientation of the board                         |
 | `boardColor`       | `green` \| `brown` | Color of the board                               |
 | `viewComments`     | `true`  \| `false` | Whether to display the comments section          |
+| `startMove`        | Integer            | Half-move (ply) to display on open. `0` = starting position, `1` = first move, etc. Defaults to the last move. |
 
-You can permanently set some settings in the [Obsidian](https://obsidian.md/) plugin settings for Obsidian Chess Study.
+You can permanently set some settings in the [Obsidian](https://obsidian.md/) plugin settings for Obsidian Chess Study. The storage folder for JSON files is also configurable from the plugin settings.
 
 ## Roadmap
 
-- [ ] Add view to manage stored games
+- [x] Add view to manage stored games
+- [x] Add more settings
 - [ ] Add more styles
-- [ ] Add more settings
 - [ ] Support canvas view
 - [ ] Mobile support
 
