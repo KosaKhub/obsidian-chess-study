@@ -197,3 +197,194 @@
 	width: 100%;
 	height: 100%;
 }
+
+/* Saved Games View */
+.saved-games-view {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	padding: 8px;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
+.saved-games-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: 8px;
+	margin-bottom: 4px;
+	border-bottom: 1px solid var(--background-secondary-alt);
+	flex-shrink: 0;
+}
+
+.saved-games-title {
+	font-weight: 600;
+	font-size: 0.9rem;
+}
+
+.saved-games-header-actions {
+	display: flex;
+	gap: 2px;
+}
+
+.saved-games-add-btn {
+	display: flex;
+	align-items: center;
+	padding: 4px;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	color: var(--text-muted);
+	border-radius: 4px;
+}
+
+.saved-games-add-btn:hover {
+	background: var(--background-secondary);
+	color: var(--text-normal);
+}
+
+.saved-games-list {
+	flex: 1;
+	overflow-y: auto;
+	min-height: 0;
+}
+
+.saved-games-loading,
+.saved-games-empty {
+	color: var(--text-muted);
+	font-size: 0.85rem;
+	padding: 8px 4px;
+}
+
+.saved-game-item {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 4px;
+	border-radius: 4px;
+	cursor: pointer;
+	border-bottom: 1px solid var(--background-secondary-alt);
+}
+
+.saved-game-item:hover {
+	background-color: var(--background-secondary);
+}
+
+.saved-game-item.selected {
+	background-color: var(--background-secondary-alt);
+}
+
+.saved-game-title {
+	flex: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 0.85rem;
+	cursor: text;
+}
+
+.saved-game-title-input {
+	flex: 1;
+	background: var(--background-primary);
+	border: 1px solid var(--color-accent);
+	border-radius: 3px;
+	padding: 2px 6px;
+	font-size: 0.85rem;
+	color: var(--text-normal);
+}
+
+.saved-game-moves {
+	font-size: 0.75rem;
+	color: var(--text-muted);
+	white-space: nowrap;
+	flex-shrink: 0;
+}
+
+.saved-games-preview {
+	flex-shrink: 0;
+	padding-top: 8px;
+	border-top: 1px solid var(--background-secondary-alt);
+	margin-top: 8px;
+}
+
+.preview-board-container {
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	position: relative;
+	/* fallback for environments where aspect-ratio alone doesn't set height */
+	min-height: 0;
+}
+
+/* Ensure chessground fills the preview container */
+.preview-board-container cg-wrap {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.preview-nav {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 4px 0;
+}
+
+.preview-nav button {
+	display: flex;
+	align-items: center;
+	padding: 2px 4px;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	color: var(--text-muted);
+	border-radius: 3px;
+}
+
+.preview-nav button:hover:not(:disabled) {
+	background: var(--background-secondary);
+	color: var(--text-normal);
+}
+
+.preview-nav button:disabled {
+	opacity: 0.3;
+	cursor: default;
+}
+
+.preview-move-label {
+	font-size: 0.8rem;
+	color: var(--text-muted);
+	min-width: 60px;
+	text-align: center;
+}
+
+.preview-actions {
+	display: flex;
+	gap: 6px;
+	padding: 4px 0;
+}
+
+.preview-action-btn {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	padding: 4px 8px;
+	font-size: 0.8rem;
+	background: var(--background-secondary);
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	color: var(--text-normal);
+	flex: 1;
+	justify-content: center;
+}
+
+.preview-action-btn:hover {
+	background: var(--background-secondary-alt);
+}
+
+.preview-action-btn--danger:hover {
+	background: var(--color-red);
+	color: white;
+}

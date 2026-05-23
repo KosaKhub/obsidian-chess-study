@@ -3,6 +3,7 @@ import { ChessStudyPluginSettings } from 'src/components/obsidian/SettingsTab';
 
 type ChessStudyAppConfig = ChessStudyPluginSettings & {
 	chessStudyId: string;
+	startMove?: number;
 };
 
 export const parseUserConfig = (

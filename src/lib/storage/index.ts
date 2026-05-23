@@ -33,6 +33,12 @@ export interface ChessStudyFileData {
 	rootFEN: string;
 }
 
+export interface SavedGameSummary {
+	id: string;
+	title: string | null;
+	moveCount: number;
+}
+
 export class ChessStudyDataAdapter {
 	adapter: DataAdapter;
 	storagePath: string;
@@ -86,5 +92,39 @@ export class ChessStudyDataAdapter {
 			console.log(`Creating storage folder at: ${this.storagePath}`);
 			this.adapter.mkdir(this.storagePath);
 		}
+	}
+
+	async listFiles(): Promise<SavedGameSummary[]> {
+		const folderExists = await this.adapter.exists(this.storagePath);
+		if (!folderExists) return [];
+
+		const listed = await this.adapter.list(this.storagePath);
+		const jsonFiles = listed.files.filter((f) => f.endsWith('.json'));
+
+		const results = await Promise.all(
+			jsonFiles.map(async (filePath) => {
+				const id = filePath.split('/').pop()?.replace('.json', '') ?? '';
+				try {
+					const data = await this.loadFile(id);
+					return { id, title: data.header.title, moveCount: data.moves.length };
+				} catch (e) {
+					console.warn(`Failed to load game ${id}`, e);
+					return null;
+				}
+			})
+		);
+
+		return results.filter((r): r is SavedGameSummary => r !== null);
+	}
+
+	async deleteFile(id: string): Promise<void> {
+		await this.adapter.remove(normalizePath(`${this.storagePath}/${id}.json`));
+	}
+
+	async copyFile(id: string): Promise<string> {
+		const data = await this.loadFile(id);
+		const newId = nanoid();
+		await this.saveFile(data, newId);
+		return newId;
 	}
 }

@@ -56,29 +56,34 @@ export const ChessStudy = ({
 	dataAdapter,
 }: AppProps) => {
 	// Parse Obsidian / Code Block Settings
-	const { boardColor, boardOrientation, viewComments, chessStudyId } =
+	const { boardColor, boardOrientation, viewComments, chessStudyId, startMove } =
 		parseUserConfig(pluginSettings, source);
 
 	// Setup Chessground API
 	const [chessView, setChessView] = useState<Api | null>(null);
 
 	// Setup Chess.js API
-	const [initialChessLogic, firstPlayer, initialMoveNumber] = useMemo(() => {
-		const chess = new Chess(chessStudyData.rootFEN);
+	const [initialChessLogic, firstPlayer, initialMoveNumber, initialMoveIndex] =
+		useMemo(() => {
+			const chess = new Chess(chessStudyData.rootFEN);
 
-		const firstPlayer = chess.turn();
-		const initialMoveNumber = chess.moveNumber();
+			const firstPlayer = chess.turn();
+			const initialMoveNumber = chess.moveNumber();
 
-		chessStudyData.moves.forEach((move) => {
-			chess.move({
-				from: move.from,
-				to: move.to,
-				promotion: move.promotion,
+			// startMove: undefined → last move; 0 → root position; N → Nth half-move (1-based)
+			const targetIndex =
+				startMove === undefined
+					? chessStudyData.moves.length - 1
+					: startMove <= 0
+					? -1
+					: Math.min(startMove - 1, chessStudyData.moves.length - 1);
+
+			chessStudyData.moves.slice(0, targetIndex + 1).forEach((move) => {
+				chess.move({ from: move.from, to: move.to, promotion: move.promotion });
 			});
-		});
 
-		return [chess, firstPlayer, initialMoveNumber];
-	}, [chessStudyData.moves, chessStudyData.rootFEN]);
+			return [chess, firstPlayer, initialMoveNumber, targetIndex];
+		}, [chessStudyData.moves, chessStudyData.rootFEN, startMove]);
 
 	const [chessLogic, setChessLogic] = useState(initialChessLogic);
 
@@ -299,7 +304,10 @@ export const ChessStudy = ({
 			}
 		},
 		{
-			currentMove: chessStudyData.moves[chessStudyData.moves.length - 1] ?? null,
+			currentMove:
+				initialMoveIndex >= 0
+					? chessStudyData.moves[initialMoveIndex] ?? null
+					: null,
 			isViewOnly: false,
 			study: chessStudyData,
 		}
