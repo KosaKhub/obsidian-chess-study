@@ -48,6 +48,18 @@ export const SavedGamesList = ({
 		'white' | 'black'
 	>(pluginSettings.boardOrientation);
 	const editInputRef = useRef<HTMLInputElement>(null);
+	const lastActiveEditorRef = useRef<Editor | null>(null);
+
+	// Track the last active MarkdownView editor so Insert works even after
+	// the sidebar gains focus and getActiveViewOfType returns a stale result.
+	useEffect(() => {
+		const onActiveLeafChange = () => {
+			const view = app.workspace.getActiveViewOfType(MarkdownView);
+			if (view?.editor) lastActiveEditorRef.current = view.editor;
+		};
+		app.workspace.on('active-leaf-change', onActiveLeafChange);
+		return () => app.workspace.off('active-leaf-change', onActiveLeafChange);
+	}, [app]);
 
 	const loadGames = useCallback(async () => {
 		setIsLoading(true);
@@ -152,11 +164,10 @@ export const SavedGamesList = ({
 	);
 
 	const findEditor = useCallback((): Editor | null => {
-		// Try the most recently active MarkdownView first
-		const activeView = app.workspace.getActiveViewOfType(MarkdownView);
-		if (activeView?.editor) return activeView.editor;
+		// Prefer the editor that was active just before the sidebar gained focus.
+		if (lastActiveEditorRef.current) return lastActiveEditorRef.current;
 
-		// Fall back: search all leaves for any MarkdownView in editing mode
+		// Fallback: search all leaves for any MarkdownView in editing mode.
 		let found: Editor | null = null;
 		app.workspace.iterateAllLeaves((leaf) => {
 			if (found) return;

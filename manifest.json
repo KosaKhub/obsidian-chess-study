@@ -4,7 +4,7 @@
 	"version": "1.3.0",
 	"minAppVersion": "1.4.0",
 	"description": "A chess study helper and PGN viewer/editor.",
-	"author": "Christoph Lindstädt",
-	"authorUrl": "https://github.com/chrislicodes",
+	"author": "KosaK",
+	"authorUrl": "https://github.com/KosaKhub",
 	"isDesktopOnly": true
 }
