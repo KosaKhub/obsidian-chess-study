@@ -75,9 +75,9 @@ export const displayMoveInHistory = (
 			}
 		}
 	} else if (offset < 0) {
-	  moveToDisplay = draft.study.moves[draft.study.moves.length - 1];
+		moveToDisplay = draft.study.moves[draft.study.moves.length - 1];
 	} else if (offset > 0) {
-	  moveToDisplay = draft.study.moves[0];
+		moveToDisplay = draft.study.moves[0];
 	}
 
 	if (moveToDisplay) {
@@ -97,11 +97,13 @@ export const displayMoveInHistory = (
 		draft.currentMove = moveToDisplay;
 
 		setChessLogic(chess);
-	} else if (offset !== 0){
-		const chess = draft.study.root.fen ? new Chess(draft.study.root.fen) : new Chess();
+	} else if (offset !== 0) {
+		const chess = draft.study.rootFEN
+			? new Chess(draft.study.rootFEN)
+			: new Chess();
 
 		chessView.set({
-		  fen: chess.fen(),
+			fen: chess.fen(),
 			check: chess.isCheck(),
 			movable: {
 				free: false,
